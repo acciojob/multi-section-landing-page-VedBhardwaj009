@@ -1,16 +1,151 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
 <head>
-	<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+        .contact-form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        .contact-form h1 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        .form-group textarea {
+            resize: vertical;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .submit-button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
-
 <body>
-	<!-- the entire body must be written by student -->
-    <script type="text/javascript" src="./script.js">
-</script>
+    <form class="contact-form" id="contactForm">
+        <h1>Contact Us</h1>
+        <div class="form-group">
+            <label for="fullName">Full Name <span aria-hidden="true">*</span></label>
+            <input type="text" id="fullName" name="fullName" required>
+            <div class="error" id="fullNameError"></div>
+        </div>
+        <div class="form-group">
+            <label for="email">Email Address <span aria-hidden="true">*</span></label>
+            <input type="email" id="email" name="email" required>
+            <div class="error" id="emailError"></div>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone">
+            <div class="error" id="phoneError"></div>
+        </div>
+        <div class="form-group">
+            <label for="message">Message <span aria-hidden="true">*</span></label>
+            <textarea id="message" name="message" rows="5" minlength="100" required></textarea>
+            <div class="error" id="messageError"></div>
+        </div>
+        <button type="submit" class="submit-button">Submit</button>
+    </form>
 
+    <script>
+        const contactForm = document.getElementById('contactForm');
+
+        contactForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            let isValid = true;
+
+            // Full Name Validation
+            const fullName = document.getElementById('fullName');
+            const fullNameError = document.getElementById('fullNameError');
+            if (fullName.value.trim() === '') {
+                fullNameError.textContent = 'Full Name is required.';
+                isValid = false;
+            } else {
+                fullNameError.textContent = '';
+            }
+
+            // Email Validation
+            const email = document.getElementById('email');
+            const emailError = document.getElementById('emailError');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email.value)) {
+                emailError.textContent = 'Enter a valid email address.';
+                isValid = false;
+            } else {
+                emailError.textContent = '';
+            }
+
+            // Phone Validation
+            const phone = document.getElementById('phone');
+            const phoneError = document.getElementById('phoneError');
+            const phoneRegex = /^\+?[0-9\s()-]*$/;
+            if (phone.value && !phoneRegex.test(phone.value)) {
+                phoneError.textContent = 'Enter a valid phone number.';
+                isValid = false;
+            } else {
+                phoneError.textContent = '';
+            }
+
+            // Message Validation
+            const message = document.getElementById('message');
+            const messageError = document.getElementById('messageError');
+            if (message.value.trim().length < 100) {
+                messageError.textContent = 'Message must be at least 100 characters.';
+                isValid = false;
+            } else {
+                messageError.textContent = '';
+            }
+
+            if (isValid) {
+                alert('Form submitted successfully!');
+                contactForm.reset();
+            }
+        });
+    </script>
 </body>
-
 </html>
